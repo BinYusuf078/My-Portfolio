@@ -1,0 +1,127 @@
+<!-- templates/contacts/contact.html -->
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block title %}Contact - My Portfolio{% endblock %}
+
+{% block content %}
+<!-- Contact Hero -->
+<section class="text-white py-5 mb-5"
+    style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); margin-left: -12px; margin-right: -12px; margin-top: -3rem; padding-bottom: 6rem !important;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 fw-bold mb-3">Get In Touch</h1>
+                <p class="lead mb-0 text-white-50">Have a project in mind or want to collaborate? I'd love to hear from
+                    you.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container" style="margin-top: -6rem;">
+    <div class="row">
+        <div class="col-lg-10 mx-auto">
+            <!-- Contact Form Card -->
+            <div class="card border-0 shadow-lg rounded-3 overflow-hidden mb-5">
+                <div class="card-body p-0">
+                    <div class="row g-0">
+                        <!-- Contact Info Sidebar -->
+                        <div
+                            class="col-md-5 bg-dark text-white p-5 d-flex flex-column justify-content-between position-relative overflow-hidden">
+                            <!-- Background Pattern Overlay -->
+                            <div class="position-absolute top-0 start-0 w-100 h-100"
+                                style="opacity: 0.1; background: radial-gradient(circle at top right, #fff 0%, transparent 40%);">
+                            </div>
+
+                            <div class="position-relative z-1">
+                                <h3 class="fw-bold mb-4">Contact Information</h3>
+                                <p class="mb-5 text-white-50">Fill up the form and I will get back to you within 24
+                                    hours.</p>
+
+                                <div class="d-flex align-items-start mb-4">
+                                    <div class="bg-primary bg-opacity-25 rounded-circle p-3 me-3 d-flex align-items-center justify-content-center"
+                                        style="width: 50px; height: 50px;">
+                                        <i class="fas fa-envelope text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-1 text-white-50">Email</h6>
+                                        <a href="mailto:abdulfatahy2020@gmail.com"
+                                            class="text-white text-decoration-none">abdulfatahy2020@gmail.com</a>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex align-items-start mb-4">
+                                    <div class="bg-primary bg-opacity-25 rounded-circle p-3 me-3 d-flex align-items-center justify-content-center"
+                                        style="width: 50px; height: 50px;">
+                                        <i class="fas fa-phone text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-1 text-white-50">Phone</h6>
+                                        <a href="tel:+1234567890" class="text-white text-decoration-none">+234 (810)
+                                            133-6078</a>
+                                    </div>
+                                </div>
+
+                                <div class="d-flex align-items-start">
+                                    <div class="bg-primary bg-opacity-25 rounded-circle p-3 me-3 d-flex align-items-center justify-content-center"
+                                        style="width: 50px; height: 50px;">
+                                        <i class="fas fa-map-marker-alt text-white"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-1 text-white-50">Location</h6>
+                                        <span>Sokoto, Nigeria</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-5 position-relative z-1">
+                                <h6 class="text-white-50 mb-3">Connect with me</h6>
+                                <div class="d-flex gap-3">
+                                    <a href="https://github.com/BinYusuf078"
+                                        class="text-white hover-scale transition-all"><i
+                                            class="fab fa-github fa-lg"></i></a>
+                                    <a href="https://www.linkedin.com/in/abdulfatah-yusuf-078/"
+                                        class="text-white hover-scale transition-all"><i
+                                            class="fab fa-linkedin fa-lg"></i></a>
+                                    <a href="https://twitter.com/BinYusuf078"
+                                        class="text-white hover-scale transition-all"><i
+                                            class="fab fa-twitter fa-lg"></i></a>
+                                    <a href="https://www.instagram.com/binyusuf078/"
+                                        class="text-white hover-scale transition-all"><i
+                                            class="fab fa-instagram fa-lg"></i></a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Form Section -->
+                        <div class="col-md-7 bg-white p-5">
+                            <form method="post" novalidate class="h-100 d-flex flex-column justify-content-center">
+                                {% csrf_token %}
+                                <div class="mb-4">
+                                    <h3 class="fw-bold text-dark">Send a Message</h3>
+                                </div>
+
+                                {{ form|crispy }}
+
+                                <div class="mt-4">
+                                    <button type="submit"
+                                        class="btn btn-primary btn-lg w-100 shadow-sm hover-shadow transition-all">
+                                        <i class="fas fa-paper-plane me-2"></i> Send Message
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .hover-scale:hover {
+        transform: scale(1.2);
+    }
+</style>
+{% endblock %}

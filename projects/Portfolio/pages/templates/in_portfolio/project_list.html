@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+
+{% block title %}Portfolio - {{ site_name }}{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="text-white mb-5 py-5"
+    style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); margin-left: -12px; margin-right: -12px; border-radius: 0 0 20px 20px; margin-top: -3rem;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 fw-bold mb-3">My Portfolio</h1>
+                <p class="lead mb-0 text-white-50">Explore a collection of my recent projects, covering web development,
+                    data science, and more.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="container">
+    <!-- Project Type Filter -->
+    <div class="row mb-5 justify-content-center">
+        <div class="col-lg-8">
+            <div class="bg-white p-2 rounded-pill shadow-sm d-flex justify-content-center flex-wrap gap-2">
+                <a href="{% url 'in_portfolio:project_list' %}"
+                    class="btn rounded-pill px-4 {% if not selected_type %}btn-primary{% else %}btn-light text-muted{% endif %}">
+                    All
+                </a>
+                {% for type_code, type_name in project_types %}
+                <a href="{% url 'in_portfolio:project_list' %}?type={{ type_code }}"
+                    class="btn rounded-pill px-4 {% if selected_type == type_code %}btn-primary{% else %}btn-light text-muted{% endif %}">
+                    {{ type_name }}
+                </a>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Projects Grid -->
+    <div class="row">
+        {% for project in projects %}
+        <div class="col-lg-4 col-md-6 mb-4">
+            <div class="card h-100 shadow-sm border-0 hover-shadow transition-all">
+                {% if project.featured_image %}
+                <div class="position-relative overflow-hidden">
+                    <img src="{{ project.featured_image.url }}" class="card-img-top" alt="{{ project.title }}"
+                        style="height: 220px; object-fit: cover;">
+                    {% if project.featured %}
+                    <span class="position-absolute top-0 end-0 m-3 badge bg-warning text-dark shadow-sm">
+                        <i class="fas fa-star me-1"></i>Featured
+                    </span>
+                    {% endif %}
+                </div>
+                {% endif %}
+                <div class="card-body d-flex flex-column p-4">
+                    <div class="mb-2">
+                        <span class="badge bg-primary bg-opacity-10 text-primary">{{ project.get_project_type_display
+                            }}</span>
+                    </div>
+                    <h5 class="card-title fw-bold mb-3">{{ project.title }}</h5>
+                    <p class="card-text text-muted flex-grow-1">{{ project.description|truncatewords:20 }}</p>
+                    <div class="mt-4 pt-3 border-top d-flex justify-content-between align-items-center">
+                        <small class="text-muted"><i class="far fa-calendar-alt me-1"></i> {{
+                            project.created_date|date:"M Y" }}</small>
+                        <a href="{{ project.get_absolute_url }}" class="text-primary text-decoration-none fw-bold">View
+                            Details <i class="fas fa-arrow-right ms-1"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12 py-5">
+            <div class="alert alert-light text-center border shadow-sm">
+                <i class="fas fa-folder-open fa-3x text-muted mb-3"></i>
+                <h4>No projects found</h4>
+                <p class="text-muted">{% if selected_type %}No {{ selected_type }} projects available.{% else %}No
+                    projects available yet.{% endif %}</p>
+                <a href="{% url 'in_portfolio:project_list' %}" class="btn btn-primary mt-3">View All Projects</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    {% if is_paginated %}
+    <div class="row mt-5">
+        <div class="col-12">
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center">
+                    {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link border-0 shadow-sm rounded-circle mx-1 d-flex align-items-center justify-content-center"
+                            style="width: 40px; height: 40px;"
+                            href="?page={{ page_obj.previous_page_number }}{% if selected_type %}&type={{ selected_type }}{% endif %}">
+                            <i class="fas fa-chevron-left"></i>
+                        </a>
+                    </li>
+                    {% endif %}
+
+                    {% for num in page_obj.paginator.page_range %}
+                    {% if page_obj.number == num %}
+                    <li class="page-item active">
+                        <span
+                            class="page-link border-0 shadow-sm rounded-circle mx-1 d-flex align-items-center justify-content-center"
+                            style="width: 40px; height: 40px;">{{ num }}</span>
+                    </li>
+                    {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %} <li class="page-item">
+                        <a class="page-link border-0 shadow-sm rounded-circle mx-1 d-flex align-items-center justify-content-center"
+                            style="width: 40px; height: 40px;"
+                            href="?page={{ num }}{% if selected_type %}&type={{ selected_type }}{% endif %}">{{ num
+                            }}</a>
+                        </li>
+                        {% endif %}
+                        {% endfor %}
+
+                        {% if page_obj.has_next %}
+                        <li class="page-item">
+                            <a class="page-link border-0 shadow-sm rounded-circle mx-1 d-flex align-items-center justify-content-center"
+                                style="width: 40px; height: 40px;"
+                                href="?page={{ page_obj.next_page_number }}{% if selected_type %}&type={{ selected_type }}{% endif %}">
+                                <i class="fas fa-chevron-right"></i>
+                            </a>
+                        </li>
+                        {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

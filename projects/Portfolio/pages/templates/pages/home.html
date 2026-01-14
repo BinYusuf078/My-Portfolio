@@ -1,0 +1,124 @@
+<!-- templates/pages/home.html -->
+{% extends 'base.html' %}
+
+{% block title %}Home - My Portfolio{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero text-white py-5" style="background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h1 class="display-4 fw-bold">Building Digital Experiences</h1>
+                <p class="lead mb-4">I'm Abdulfatah Yusuf, a Django developer passionate about creating clean,
+                    efficient, and user-friendly web applications.</p>
+                <div class="d-grid gap-2 d-md-block">
+                    <a href="{% url 'in_portfolio:project_list' %}" class="btn btn-light btn-lg px-4 me-md-2">View
+                        Portfolio</a>
+                    <a href="{% url 'contacts:contact' %}" class="btn btn-outline-light btn-lg px-4">Get in Touch</a>
+                </div>
+            </div>
+            <div class="col-md-6 mt-4 mt-md-0 text-center">
+                <img src="/static/images/profile.jpg" alt="Abdulfatah Yusuf" class="img-fluid rounded-circle shadow-lg"
+                    style="max-width: 300px; border: 5px solid rgba(255,255,255,0.2);">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Projects -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">Featured Projects</h2>
+        <div class="row">
+            {% for project in featured_projects %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    {% if project.featured_image %}
+                    <img src="{{ project.featured_image.url }}" class="card-img-top" alt="{{ project.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ project.title }}</h5>
+                        <p class="card-text">{{ project.description|truncatewords:20 }}</p>
+                        <span class="badge bg-primary">{{ project.get_project_type_display }}</span>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ project.get_absolute_url }}" class="btn btn-primary">View Details</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p>No featured projects yet.</p>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'in_portfolio:project_list' %}" class="btn btn-outline-primary">View All Projects</a>
+        </div>
+    </div>
+</section>
+
+<!-- Recent Blog Posts -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <h2 class="text-center mb-5">Recent Blog Posts</h2>
+        <div class="row">
+            {% for post in recent_posts %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    {% if post.featured_image %}
+                    <img src="{{ post.featured_image.url }}" class="card-img-top" alt="{{ post.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post.title }}</h5>
+                        <p class="card-text">{{ post.excerpt|default:post.content|truncatewords:30 }}</p>
+                        <small class="text-muted">
+                            By {{ post.author }} | {{ post.published_date|date:"F d, Y" }}
+                        </small>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{ post.get_absolute_url }}" class="btn btn-outline-primary">Read More</a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p>No blog posts yet.</p>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="text-center mt-4">
+            <a href="{% url 'blog:post_list' %}" class="btn btn-primary">Read All Posts</a>
+        </div>
+    </div>
+</section>
+
+<!-- Skills Section -->
+<section class="py-5">
+    <div class="container">
+        <h2 class="text-center mb-5">My Skills</h2>
+        <div class="row">
+            {% for skill in skills %}
+            <div class="col-md-6 mb-3">
+                <div class="d-flex justify-content-between mb-1">
+                    <span>{{ skill.name }}</span>
+                    <span>{{ skill.get_level_display }}</span>
+                </div>
+                <div class="progress">
+                    {% if skill.level == 'beginner' %}
+                    <div class="progress-bar" role="progressbar" style="width: 25%"></div>
+                    {% elif skill.level == 'intermediate' %}
+                    <div class="progress-bar" role="progressbar" style="width: 50%"></div>
+                    {% elif skill.level == 'advanced' %}
+                    <div class="progress-bar" role="progressbar" style="width: 75%"></div>
+                    {% else %}
+                    <div class="progress-bar" role="progressbar" style="width: 100%"></div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
