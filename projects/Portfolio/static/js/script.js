@@ -19,7 +19,7 @@ forms.forEach(form => {
     form.addEventListener('submit', function (e) {
         const requiredFields = this.querySelectorAll('[required]');
         let valid = true;
-        
+
         requiredFields.forEach(field => {
             if (!field.value.trim()) {
                 field.classList.add('is-invalid');
@@ -28,7 +28,7 @@ forms.forEach(form => {
                 field.classList.remove('is-invalid');
             }
         });
-        
+
         if (!valid) {
             e.preventDefault();
         }
@@ -43,3 +43,36 @@ setTimeout(() => {
         bsAlert.close();
     });
 }, 5000);
+
+// Theme Toggle Logic
+document.addEventListener('DOMContentLoaded', function () {
+    const toggleBtn = document.getElementById('theme-toggle');
+    if (!toggleBtn) return; // Guard clause if button doesn't exist
+
+    const icon = toggleBtn.querySelector('i');
+    const htmlElement = document.documentElement;
+
+    // Check for saved user preference
+    const currentTheme = localStorage.getItem('theme');
+    if (currentTheme) {
+        htmlElement.setAttribute('data-theme', currentTheme);
+        if (currentTheme === 'dark') {
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        }
+    }
+
+    toggleBtn.addEventListener('click', function () {
+        if (htmlElement.getAttribute('data-theme') === 'dark') {
+            htmlElement.setAttribute('data-theme', 'light');
+            localStorage.setItem('theme', 'light');
+            icon.classList.remove('fa-sun');
+            icon.classList.add('fa-moon');
+        } else {
+            htmlElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+            icon.classList.remove('fa-moon');
+            icon.classList.add('fa-sun');
+        }
+    });
+});

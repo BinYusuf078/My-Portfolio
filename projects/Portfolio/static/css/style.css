@@ -4,11 +4,33 @@
     --secondary-color: #2c3e50;
     --light-color: #f8f9fa;
     --dark-color: #343a40;
+    
+    /* Theme Colors (Default Light) */
+    --bg-body: #ffffff;
+    --text-body: #212529;
+    --bg-card: #ffffff;
+    --text-card: #212529;
+    --bg-nav: #212529; /* Dark navbar by default */
+    --text-nav: #ffffff;
+    --border-color: #dee2e6;
+}
+
+[data-theme="dark"] {
+    --bg-body: #1a1a1a;
+    --text-body: #f8f9fa;
+    --bg-card: #2d2d2d;
+    --text-card: #f8f9fa;
+    --light-color: #2d2d2d;
+    --secondary-color: #1a1a1a;
+    --border-color: #404040;
 }
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
+    background-color: var(--bg-body);
+    color: var(--text-body);
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .hero {
@@ -22,9 +44,11 @@ body {
 }
 
 .card {
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, background-color 0.3s ease;
     border: none;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    background-color: var(--bg-card);
+    color: var(--text-card);
 }
 
 .card:hover {
@@ -41,11 +65,38 @@ body {
 }
 
 footer {
-    background-color: var(--secondary-color);
+    background-color: var(--secondary-color) !important;
 }
 
 footer a:hover {
     opacity: 0.8;
+}
+
+/* Dark Mode Specific Overrides */
+[data-theme="dark"] .bg-light {
+    background-color: #2d2d2d !important;
+}
+
+[data-theme="dark"] .bg-white {
+    background-color: #2d2d2d !important;
+    color: #f8f9fa !important;
+}
+
+[data-theme="dark"] .text-dark {
+    color: #f8f9fa !important;
+}
+
+[data-theme="dark"] .border {
+    border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .modal-content {
+    background-color: var(--bg-card);
+    color: var(--text-card);
+}
+
+[data-theme="dark"] .close {
+    color: var(--text-body);
 }
 
 /* Utility Classes */
